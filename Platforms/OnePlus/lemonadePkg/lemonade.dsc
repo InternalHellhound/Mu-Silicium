@@ -14,65 +14,53 @@
 #
 ################################################################################
 [Defines]
-  PLATFORM_NAME                  = alioth
-  PLATFORM_GUID                  = 7F67CDAE-8312-4ECC-B948-D86C870D04D9
+  PLATFORM_NAME                  = lemonade
+  PLATFORM_GUID                  = DA91FC30-FD21-4605-8628-64733934E591
   PLATFORM_VERSION               = 0.1
   DSC_SPECIFICATION              = 0x00010005
-  OUTPUT_DIRECTORY               = Build/aliothPkg
+  OUTPUT_DIRECTORY               = Build/lemonadePkg
   SUPPORTED_ARCHITECTURES        = AARCH64
   BUILD_TARGETS                  = RELEASE|DEBUG
   SKUID_IDENTIFIER               = DEFAULT
-  FLASH_DEFINITION               = aliothPkg/alioth.fdf
+  FLASH_DEFINITION               = lemonadePkg/lemonade.fdf
   USE_CUSTOM_DISPLAY_DRIVER      = 0
   HAS_BUILD_IN_KEYBOARD          = 0
 
   #
-  # 0 = SM8250
-  # 1 = SM8250-AB
-  # 2 = SM8250-AC
+  # 0 = SM8350
+  # 1 = SM8350-AB
+  # 2 = SM8350-AC
   #
-  SOC_TYPE                       = 2
+  SOC_TYPE                       = 0
 
 [BuildOptions]
   *_*_*_CC_FLAGS = -DSOC_TYPE=$(SOC_TYPE) -DHAS_BUILD_IN_KEYBOARD=$(HAS_BUILD_IN_KEYBOARD)
 
 [LibraryClasses]
-  DeviceMemoryMapLib|aliothPkg/Library/DeviceMemoryMapLib/DeviceMemoryMapLib.inf
-  DeviceConfigurationMapLib|aliothPkg/Library/DeviceConfigurationMapLib/DeviceConfigurationMapLib.inf
-  DevicePrePiLib|aliothPkg/Library/DevicePrePiLib/DevicePrePiLib.inf
+  DeviceMemoryMapLib|lemonadePkg/Library/DeviceMemoryMapLib/DeviceMemoryMapLib.inf
+  DeviceConfigurationMapLib|lemonadePkg/Library/DeviceConfigurationMapLib/DeviceConfigurationMapLib.inf
+  DevicePrePiLib|lemonadePkg/Library/DevicePrePiLib/DevicePrePiLib.inf
 
 [PcdsFixedAtBuild]
   # DDR Start Address
-  gArmTokenSpaceGuid.PcdSystemMemoryBase|0x80000000        
+  gArmTokenSpaceGuid.PcdSystemMemoryBase|0x80000000 
 
   # Device Maintainer
-  gSiliciumPkgTokenSpaceGuid.PcdDeviceMaintainer|"AdrianoA3 & N1kroks"
+  gSiliciumPkgTokenSpaceGuid.PcdDeviceMaintainer|"arminask"
 
   # CPU Vector Address
   gArmTokenSpaceGuid.PcdCpuVectorBaseAddress|0x9FF8C000
 
   # UEFI Stack Addresses
   gEmbeddedTokenSpaceGuid.PcdPrePiStackBase|0x9FF90000
-  gEmbeddedTokenSpaceGuid.PcdPrePiStackSize|0x00040000        
+  gEmbeddedTokenSpaceGuid.PcdPrePiStackSize|0x00040000 
 
   # SmBios
-  gSiliciumPkgTokenSpaceGuid.PcdSmbiosSystemManufacturer|"Xiaomi Inc"
-  gSiliciumPkgTokenSpaceGuid.PcdSmbiosSystemRetailModel|"alioth"
-!if $(DEVICE_MODEL) == 0
-  gSiliciumPkgTokenSpaceGuid.PcdSmbiosSystemModel|"Poco F3"
-  gSiliciumPkgTokenSpaceGuid.PcdSmbiosSystemRetailSku|"Poco_F3_alioth"
-  gSiliciumPkgTokenSpaceGuid.PcdSmbiosBoardModel|"Poco F3"
-!elseif $(DEVICE_MODEL) == 1
-  gSiliciumPkgTokenSpaceGuid.PcdSmbiosSystemModel|"Redmi K40"
-  gSiliciumPkgTokenSpaceGuid.PcdSmbiosSystemRetailSku|"Redmi_K40_alioth"
-  gSiliciumPkgTokenSpaceGuid.PcdSmbiosBoardModel|"Redmi K40"
-!elseif $(DEVICE_MODEL) == 2
-  gSiliciumPkgTokenSpaceGuid.PcdSmbiosSystemModel|"Mi 11X"
-  gSiliciumPkgTokenSpaceGuid.PcdSmbiosSystemRetailSku|"Mi_11X_alioth"
-  gSiliciumPkgTokenSpaceGuid.PcdSmbiosBoardModel|"Mi 11X"
-!else
-!error "Invalid Model Type! 0, 1 or 2 are Valid Model Types."
-!endif
+  gSiliciumPkgTokenSpaceGuid.PcdSmbiosSystemManufacturer|"Oneplus"
+  gSiliciumPkgTokenSpaceGuid.PcdSmbiosSystemModel|"9"
+  gSiliciumPkgTokenSpaceGuid.PcdSmbiosSystemRetailModel|"lemonade"
+  gSiliciumPkgTokenSpaceGuid.PcdSmbiosSystemRetailSku|"9_lemonade"
+  gSiliciumPkgTokenSpaceGuid.PcdSmbiosBoardModel|"9"
 
   # Simple FrameBuffer
   gSiliciumPkgTokenSpaceGuid.PcdMipiFrameBufferWidth|1080
@@ -81,13 +69,14 @@
 
   # Platform Pei
   gQcomPkgTokenSpaceGuid.PcdPlatformType|"LA"
+  gQcomPkgTokenSpaceGuid.PcdScheduleInterfaceAddr|0x9FC37998
 
   # Dynamic RAM Start Address
-  gQcomPkgTokenSpaceGuid.PcdRamPartitionBase|0xA0000000
+  gQcomPkgTokenSpaceGuid.PcdRamPartitionBase|0xE7100000
 
   # SD Card Slot
   gQcomPkgTokenSpaceGuid.PcdInitCardSlot|FALSE
-  
+
   # USB Controller
   gQcomPkgTokenSpaceGuid.PcdStartUsbController|TRUE
 
@@ -101,7 +90,4 @@
   gEfiMdeModulePkgTokenSpaceGuid.PcdConOutColumn|135
   gEfiMdeModulePkgTokenSpaceGuid.PcdConOutRow|126
 
-!include SM8250Pkg/SM8250Pkg.dsc.inc
-
-[LibraryClasses]
-  AcpiPlatformUpdateLib|aliothPkg/Library/AcpiPlatformUpdateLib/AcpiPlatformUpdateLib.inf
+!include SM8350Pkg/SM8350Pkg.dsc.inc
